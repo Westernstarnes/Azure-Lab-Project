@@ -1,0 +1,33 @@
+#!/bin/bash
+
+for i in {1..6};do
+	cat Roulette_Losses | cut -f 2-3 | sed 's/  */ /g' | sed 's/\s/ /' | cut -d ' ' -f2- | sed 's/[[:blank:]]//g' | cut -d "," -f$i
+
+done | sort -b 
+
+
+
+for number in $(grep -i mylie TestQ | cut -d " " -f1);do total=$(($total + $number)) ; done; printf -- "-$%'.2f\n" $total
+sysadmin@UbuntuDesktop:~/Desktop/Player_Dea
+
+
+#!/bin/bash
+
+filename=$1
+time=$2
+AMPM=$3
+game=$4
+
+#!format for input should be $ ./script filename 00:00 AM/PM Game  
+
+echo -e "searching for dealer...\n"
+
+cat $1 | sed 's/\s/ /g' | awk -F " " '$0 ~ /'$2'/ && $0 ~ /'$3'/ {print}' | awk '{
+	if ("Texas" ~ /'$4'/) {print $1 ,$2 ,$7, $8 " [Texas Hold em]"}
+	else if ("Roulette" ~ /'$4'/) {print $1 , $2 ,$5, $6 " [Roulette]"}
+	else if ("Blackjack" ~ /'$4'/) {print $1 , $2 ,$3, $4 " [Blackjack]"}
+	}'
+echo ":::FINISHED:::"
+
+
+

@@ -1,0 +1,164 @@
+First objective is to isolate the times and Roulette Dealers
+
+#!/bin/bash
+
+filename= $1 $2 $3
+
+cat $1 $2 $3 | sed 's/\s/ /g' | cut -d " " -f1,2,5,6
+
+echo Finished
+
+
+Hour AM/PM Roulette_Dealer_FNAME LAST
+
+12:00:00 AM Marlene Mcpherson
+01:00:00 AM Saima Mcdermott
+02:00:00 AM Abigale Rich
+03:00:00 AM Evalyn Howell
+04:00:00 AM Cleveland Hanna
+05:00:00 AM Billy Jones
+06:00:00 AM Saima Mcdermott
+07:00:00 AM Abigale Rich
+08:00:00 AM Billy Jones
+09:00:00 AM Cleveland Hanna
+10:00:00 AM Madina Britton
+11:00:00 AM Summer-Louise Hammond
+12:00:00 PM John-James Hayward
+01:00:00 PM Chyna Mercado
+02:00:00 PM Billy Jones
+03:00:00 PM Evalyn Howell
+04:00:00 PM Cleveland Hanna
+05:00:00 PM Rahima Figueroa
+06:00:00 PM John-James Hayward
+07:00:00 PM Chyna Mercado
+08:00:00 PM Billy Jones
+09:00:00 PM Evalyn Howell
+10:00:00 PM Katey Bean
+11:00:00 PM Billy Jones
+Hour AM/PM Roulette_Dealer_FNAME LAST
+
+12:00:00 AM Marlene Mcpherson
+01:00:00 AM Saima Mcdermott
+02:00:00 AM Abigale Rich
+03:00:00 AM Evalyn Howell
+04:00:00 AM Cleveland Hanna
+05:00:00 AM Billy Jones
+06:00:00 AM Saima Mcdermott
+07:00:00 AM Abigale Rich
+08:00:00 AM Billy Jones
+09:00:00 AM Cleveland Hanna
+10:00:00 AM Madina Britton
+11:00:00 AM Summer-Louise Hammond
+12:00:00 PM John-James Hayward
+01:00:00 PM Chyna Mercado
+02:00:00 PM Billy Jones
+03:00:00 PM Evalyn Howell
+04:00:00 PM Cleveland Hanna
+05:00:00 PM Rahima Figueroa
+06:00:00 PM John-James Hayward
+07:00:00 PM Chyna Mercado
+08:00:00 PM Billy Jones
+09:00:00 PM Evalyn Howell
+10:00:00 PM Katey Bean
+11:00:00 PM Billy Jones
+Hour AM/PM Roulette_Dealer_FNAME LAST
+
+12:00:00 AM Marlene Mcpherson
+01:00:00 AM Saima Mcdermott
+02:00:00 AM Abigale Rich
+03:00:00 AM Evalyn Howell
+04:00:00 AM Cleveland Hanna
+05:00:00 AM Billy Jones
+06:00:00 AM Saima Mcdermott
+07:00:00 AM Abigale Rich
+08:00:00 AM Billy Jones
+09:00:00 AM Cleveland Hanna
+10:00:00 AM Madina Britton
+11:00:00 AM Summer-Louise Hammond
+12:00:00 PM John-James Hayward
+01:00:00 PM Chyna Mercado
+02:00:00 PM Billy Jones
+03:00:00 PM Evalyn Howell
+04:00:00 PM Cleveland Hanna
+05:00:00 PM Rahima Figueroa
+06:00:00 PM John-James Hayward
+07:00:00 PM Chyna Mercado
+08:00:00 PM Billy Jones
+09:00:00 PM Evalyn Howell
+10:00:00 PM Katey Bean
+11:00:00 PM Billy Jones
+Finished
+
+Next, we place the losses in in a new file called Dealer_working_during_losses
+	I used 2 seperate scripts for three dates as March 10th and 12th have five losses and the 15th has only three
+
+Results follow via the following command
+cat Dealer_working_during_losses >> Notes_Player Analysis
+
+dealer.sh
+#!/bin/bash
+
+filename=$1
+time=$2
+ampm=$3
+time2=$4
+ampm2=$5
+time3=$6
+ampm3=$7
+time4=$8
+ampm4=$9
+time5=$10
+ampm=$11
+cat $1 | sed 's/\s/ /g' | cut -d " " -f1,2,5,6 | awk -F " " '$0 ~ /'$2'/ && $0 ~ /'$3'/ || $0 ~ /'$4'/ && $0 ~ /'$5'/ || $0 ~ /'$6'/ && $0 ~ /'$7'/ || $0 ~ /'$8'/ && $0 ~ /'$9'/ || $0 ~ /'$10'/ && $0 ~ /'$11'/ {print}'
+
+
+echo ":::FINISHED:::"
+echo "[---$1---]"  
+
+dealer2.sh
+#!/bin/bash
+
+filename=$1
+time=$2
+ampm=$3
+time2=$4
+ampm2=$5
+time3=$6
+ampm3=$7
+
+cat $1 | sed 's/\s/ /g' | cut -d " " -f1,2,5,6 | awk -F " " '$0 ~ /'$2'/ && $0 ~ /'$3'/ || $0 ~ /'$4'/ && $0 ~ /'$5'/ || $0 ~ /'$6'/ && $0 ~ /'$7'/ && $0 ~ /'$8'/ {print}' 
+
+echo ":::FINISHED:::"
+echo "[---$1---]" 
+
+05:00:00 AM Billy Jones
+08:00:00 AM Billy Jones
+02:00:00 PM Billy Jones
+08:00:00 PM Billy Jones
+:::FINISHED:::
+[---0310_Dealer_schedule---]
+05:00:00 AM Billy Jones
+08:00:00 AM Billy Jones
+02:00:00 PM Billy Jones
+08:00:00 PM Billy Jones
+:::FINISHED:::
+[---0312_Dealer_schedule---]
+05:00:00 AM Billy Jones
+08:00:00 AM Billy Jones
+02:00:00 PM Billy Jones
+:::FINISHED:::
+[---0315_Dealer_schedule---]
+
+
+Next script will give me the total of the Dealers specified 
+dealer_count.sh
+
+#!/bin/bash
+
+filename=$1
+dealer=$2
+cat $1 | awk -F " " '{print $3 $4}' | grep -i $2 | wc -l 
+echo "::Total Dealer Shifts::"
+
+11
+::Total Dealer Shifts::

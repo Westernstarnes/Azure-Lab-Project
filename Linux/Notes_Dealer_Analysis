@@ -1,0 +1,81 @@
+Analysis
+
+	Isolate the common name
+I used script losses.sh
+
+#!/bin/bash
+
+for i in {1..6};do
+	cat Roulette_Losses | cut -f 2-3 | sed 's/  */ /g' | sed 's/\s/ /' | cut -d ' ' -f2- | sed 's/[[:blank:]]//g' | cut -d "," -f$i
+
+done | sort -b 
+
+I then piped this into unic -c
+$ ./losses.sh | uniq -c
+
+This identified "Mylie" as the common name for every Loss occuring 13 times
+
+We can identify the total losses with the following
+
+cat Roulette_Losses | awk -F '-' '{print $2}' |sed 's/,//g' | grep -o '[[:digit:]]*' ; printf -- "-$%'.2f\n" $total ; echo Total Debt
+
+
+     24 
+      1 AlysiaGoodman
+      1 AmirahSchneider
+      1 ArjanGuzman
+      1 AviGraves
+      1 AydenBeil
+      1 BladeRobertson
+      1 BrendanLester
+      1 ChanelleTapia
+      1 CiaronVillanueva
+      1 CoreyHuffman
+      1 DerrickSchroeder
+      1 ElinWormald
+      1 EstherCallaghan
+      1 EtienneBrady
+      1 FernCleveland
+      1 HakimStott
+      1 HalimaLittle
+      1 JadenClarkson
+      1 JeromeKlein
+      1 JosieDawe
+      1 KaidanSheridan
+      1 KerysFrazier
+      1 KobeHiggins
+      1 LexOakley
+      1 LiliannaDevlin
+      1 MaeHail
+      1 McfaddenWasim
+      1 MillicentBetts
+      1 MontanaKirk
+      1 MyaButler
+     13 MylieSchmidt
+      1 NolaPortillo
+      1 NormanCooper
+      1 RahmaBuckley
+      1 RimshaGardiner
+      1 ShelleyDodson
+      1 SommerMann
+      1 SuhaybMaguire
+      1 TallulahRawlings
+      1 TrixieVelasquez
+      1 ValentinoSmith
+      1 VladHatfield
+-$1,294,126.00
+Total Debt
+Times and Losses that Occured
+05:00:00 AM -$82,348
+08:00:00 AM -$97,383
+02:00:00 PM -$82,348
+08:00:00 PM -$65,348
+11:00:00 PM -$88,383
+05:00:00 AM -$182,300
+08:00:00 AM -$97,383
+02:00:00 PM -$82,348
+08:00:00 PM -$65,792
+11:00:00 PM -$88,229
+05:00:00 AM -$82,844
+08:00:00 AM -$97,001
+02:00:00 PM -$182,419
